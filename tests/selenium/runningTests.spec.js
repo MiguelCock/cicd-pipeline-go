@@ -15,6 +15,7 @@ describe('First script', function () {
 	let driver;
 
 	before(async function () {
+		this.timeout(20000); 
 		let options = new chrome.Options();
 		options.addArguments('--no-sandbox');
 		options.addArguments('--disable-dev-shm-usage');
