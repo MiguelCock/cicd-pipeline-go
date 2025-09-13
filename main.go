@@ -21,7 +21,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		num2, err2 := strconv.ParseFloat(num2Str, 64)
 
 		if err1 != nil || err2 != nil {
-			res = "Error: Introduce números válidos"
+			res = "error: enter valid numbers"
 		} else {
 			switch operacion {
 			case "sumar":
@@ -31,7 +31,14 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			case "multiplicar":
 				res = mult(num1, num2)
 			case "dividir":
-				res = div(num1, num2)
+				ress, err := div(num1, num2)
+				if err != nil {
+					res = err.Error()
+				} else {
+					res = ress
+				}
+			default:
+				res = "error: invalid operation"
 			}
 		}
 	}
