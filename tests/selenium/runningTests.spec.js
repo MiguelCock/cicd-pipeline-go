@@ -20,6 +20,11 @@ describe('First script', function () {
 		options.addArguments('--no-sandbox');
 		options.addArguments('--disable-dev-shm-usage');
 		options.addArguments('--disable-gpu');
+		options.addArguments('--disable-software-rasterizer');
+		options.addArguments('--disable-extensions');
+		options.addArguments('--remote-debugging-port=9222');
+		options.addArguments('--headless=new');
+
 		driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 	});
 
