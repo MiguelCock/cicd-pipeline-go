@@ -34,7 +34,7 @@ jobs:
           args: --timeout=5m
 
       - name: Run Unit Tests with Coverage
-        run: go test ./... -coverprofile=coverage.out -v
+        run: go test ./tests/go_test/ -o coverage.out -v
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4

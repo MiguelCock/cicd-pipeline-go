@@ -1,9 +1,9 @@
 package main
 
 import (
+	"cicd-pipeline-go/endpoints"
 	"log"
 	"net/http"
-	"cicd-pipeline-go/endpoints"
 )
 
 func main() {

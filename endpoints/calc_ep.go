@@ -1,11 +1,11 @@
 package endpoints
 
 import (
+	calc "cicd-pipeline-go/utils/calculator"
 	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
-	calc "cicd-pipeline-go/utils/calculator"
 )
 
 var tmpl = template.Must(template.ParseFiles("templates/index.html"))

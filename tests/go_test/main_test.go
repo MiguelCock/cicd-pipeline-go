@@ -1,12 +1,12 @@
 package go_test
 
 import (
+	"cicd-pipeline-go/endpoints"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
-	"cicd-pipeline-go/endpoints"
 )
 
 func TestIndexGet(t *testing.T) {
@@ -46,30 +46,22 @@ func testTemplate(t *testing.T, num1, num2, operacion, expected string) {
 	}
 }
 
-func TestIndexPostSumar(t *testing.T) {
-	testTemplate(t, "2", "3", "sumar", "5")
-}
+func TestPostCalculator(t *testing.T) {
+	test := []struct {
+		num1, num2 string
+		operacion  string
+		expect     string
+	}{
+		{"2", "3", "sumar", "5"},
+		{"5", "3", "restar", "2"},
+		{"2", "3", "multiplicar", "6"},
+		{"6", "3", "dividir", "2"},
+		{"6", "0", "dividir", "error: Division by zero"},
+		{"6", "3", "invalid", "error: invalid operation"},
+		{"a", "b", "sumar", "error: enter valid numbers"},
+	}
 
-func TestIndexPostRestar(t *testing.T) {
-	testTemplate(t, "5", "3", "restar", "2")
-}
-
-func TestIndexPostMultiplicar(t *testing.T) {
-	testTemplate(t, "2", "3", "multiplicar", "6")
-}
-
-func TestIndexPostDividir(t *testing.T) {
-	testTemplate(t, "6", "3", "dividir", "2")
-}
-
-func TestIndexPostDividirByZero(t *testing.T) {
-	testTemplate(t, "6", "0", "dividir", "error: Division by zero")
-}
-
-func TestIndexPostInvalidOperation(t *testing.T) {
-	testTemplate(t, "6", "3", "invalid", "error: invalid operation")
-}
-
-func TestIndexPostInvalidNumbers(t *testing.T) {
-	testTemplate(t, "a", "b", "sumar", "error: enter valid numbers")
+	for _, tt := range test {
+		testTemplate(t, tt.num1, tt.num2, tt.operacion, tt.expect)
+	}
 }

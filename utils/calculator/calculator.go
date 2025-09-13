@@ -19,4 +19,4 @@ func Div(a, b float64) (float64, error) {
 		return 0, errors.New("error: Division by zero")
 	}
 	return a / b, nil
-}	
+}
