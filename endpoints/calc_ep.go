@@ -1,6 +1,7 @@
 package endpoints
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -10,6 +11,8 @@ import (
 var tmpl = template.Must(template.ParseFiles("templates/index.html"))
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("[%s] %s\n", r.Method, r.RemoteAddr)
+
 	var res interface{} = nil
 
 	if r.Method == http.MethodPost {
