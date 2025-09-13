@@ -27,11 +27,11 @@ func TestIndexGet(t *testing.T) {
 	}
 }
 
-func TestIndexPostSumar(t *testing.T) {
+func testTemplate(t *testing.T, num1, num2, operacion, expected string) {
 	form := url.Values{}
-	form.Add("num1", "2")
-	form.Add("num2", "3")
-	form.Add("operacion", "sumar")
+	form.Add("num1", num1)
+	form.Add("num2", num2)
+	form.Add("operacion", operacion)
 
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -40,115 +40,35 @@ func TestIndexPostSumar(t *testing.T) {
 	indexHandler(w, req)
 
 	body := w.Body.String()
-	if !strings.Contains(body, "5") {
-		t.Errorf("expected result 5 in response, got: %s", body)
+	if !strings.Contains(body, expected) {
+		t.Errorf("expected result %s in response, got: %s", expected, body)
 	}
+}
+
+func TestIndexPostSumar(t *testing.T) {
+	testTemplate(t, "2", "3", "sumar", "5")
 }
 
 func TestIndexPostRestar(t *testing.T) {
-	form := url.Values{}
-	form.Add("num1", "5")
-	form.Add("num2", "3")
-	form.Add("operacion", "restar")
-
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-
-	indexHandler(w, req)
-
-	body := w.Body.String()
-	if !strings.Contains(body, "2") {
-		t.Errorf("expected result 2 in response, got: %s", body)
-	}
+	testTemplate(t, "5", "3", "restar", "2")
 }
 
 func TestIndexPostMultiplicar(t *testing.T) {
-	form := url.Values{}
-	form.Add("num1", "2")
-	form.Add("num2", "3")
-	form.Add("operacion", "multiplicar")
-
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-
-	indexHandler(w, req)
-
-	body := w.Body.String()
-	if !strings.Contains(body, "6") {
-		t.Errorf("expected result 6 in response, got: %s", body)
-	}
+	testTemplate(t, "2", "3", "multiplicar", "6")
 }
 
 func TestIndexPostDividir(t *testing.T) {
-	form := url.Values{}
-	form.Add("num1", "6")
-	form.Add("num2", "3")
-	form.Add("operacion", "dividir")
-
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-
-	indexHandler(w, req)
-
-	body := w.Body.String()
-	if !strings.Contains(body, "2") {
-		t.Errorf("expected result 2 in response, got: %s", body)
-	}
+	testTemplate(t, "6", "3", "dividir", "2")
 }
 
 func TestIndexPostDividirByZero(t *testing.T) {
-	form := url.Values{}
-	form.Add("num1", "6")
-	form.Add("num2", "0")
-	form.Add("operacion", "dividir")
-
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-
-	indexHandler(w, req)
-
-	body := w.Body.String()
-	if !strings.Contains(body, "error: Division by zero") {
-		t.Errorf("expected divide by zero error, got: %s", body)
-	}
+	testTemplate(t, "6", "0", "dividir", "error: Division by zero")
 }
 
 func TestIndexPostInvalidOperation(t *testing.T) {
-	form := url.Values{}
-	form.Add("num1", "6")
-	form.Add("num2", "3")
-	form.Add("operacion", "invalid")
-
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-
-	indexHandler(w, req)
-
-	body := w.Body.String()
-	if !strings.Contains(body, "error: invalid operation") {
-		t.Errorf("expected invalid operation message, got: %s", body)
-	}
+	testTemplate(t, "6", "3", "invalid", "error: invalid operation")
 }
 
 func TestIndexPostInvalidNumbers(t *testing.T) {
-	form := url.Values{}
-	form.Add("num1", "a")
-	form.Add("num2", "b")
-	form.Add("operacion", "sumar")
-
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-
-	indexHandler(w, req)
-
-	body := w.Body.String()
-	if !strings.Contains(body, "error: enter valid numbers") {
-		t.Errorf("expected invalid numbers message, got: %s", body)
-	}
+	testTemplate(t, "a", "b", "sumar", "error: enter valid numbers")
 }
