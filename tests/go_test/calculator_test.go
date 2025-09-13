@@ -1,6 +1,7 @@
-package main
+package go_test
 
 import (
+	calc "cicd-pipeline-go/utils/calculator"
 	"testing"
 )
 
@@ -15,7 +16,7 @@ func TestSumar(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := sum(tt.a, tt.b)
+		got := calc.Sum(tt.a, tt.b)
 		if got != tt.expect {
 			t.Errorf("Sumar(%v, %v) = %v; want %v", tt.a, tt.b, got, tt.expect)
 		}
@@ -33,7 +34,7 @@ func TestRestar(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := sub(tt.a, tt.b)
+		got := calc.Sub(tt.a, tt.b)
 		if got != tt.expect {
 			t.Errorf("Restar(%v, %v) = %v; want %v", tt.a, tt.b, got, tt.expect)
 		}
@@ -51,7 +52,7 @@ func TestMultiplicar(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := mult(tt.a, tt.b)
+		got := calc.Mult(tt.a, tt.b)
 		if got != tt.expect {
 			t.Errorf("Multiplicar(%v, %v) = %v; want %v", tt.a, tt.b, got, tt.expect)
 		}
@@ -70,7 +71,7 @@ func TestDividir(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got, err := div(tt.a, tt.b)
+		got, err := calc.Div(tt.a, tt.b)
 		if tt.wantErr {
 			if err == nil {
 				t.Errorf("Dividir(%v, %v) expected error, got nil", tt.a, tt.b)
