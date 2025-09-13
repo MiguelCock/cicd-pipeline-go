@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Acceptance Tests
         env:
-          APP_BASE_URL: http://localhost:8000
+          APP_BASE_URL: http://localhost:5000
         run: |
           # Start Go app in background (replace with your binary if needed)
           go build -o app .
