@@ -1,3 +1,7 @@
+~~~ bash
+go vet ./...
+go fmt .
+~~~
 
 ~~~ bash
 docker build -t go-calculator .

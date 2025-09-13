@@ -4,11 +4,7 @@ Dockerfile
 README.md
 
 # coverage
-.coverage
-htmlcov/
-coverage.xml
-report.html
-acceptance_coverage.xml
+coverage
 
 # IDE
 .vscode/
