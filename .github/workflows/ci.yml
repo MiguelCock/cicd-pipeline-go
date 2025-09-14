@@ -67,6 +67,23 @@ jobs:
           APP_PID=$!
           sleep 15
 
+          # Wait until the app responds at /health (or root) or timeout
+          max_wait=60  # seconds
+          interval=5   # seconds between checks
+          elapsed=0
+          
+          until curl --silent --fail http://localhost:5000/health >/dev/null 2>&1; do
+            if [ "$elapsed" -ge "$max_wait" ]; then
+              echo "App did not start within ${max_wait}s"
+              exit 1
+            fi
+            printf "Waiting for app to be ready... (${elapsed}/${max_wait})\n"
+            sleep $interval
+            elapsed=$(( elapsed + interval ))
+          done
+          
+          echo "App is up, running acceptance tests"
+
           # Install JS test deps (from ./tests/selenium)
           cd ./tests/selenium
           npm ci
@@ -83,7 +100,7 @@ jobs:
         if: always()
         with:
           name: test-reports
-          path: tests/selenium/acceptance-report.xml
+          path: ./tests/selenium/acceptance-report.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@1a6d90ebcb0e6a6b1d87e37ba693fe453195ae25
