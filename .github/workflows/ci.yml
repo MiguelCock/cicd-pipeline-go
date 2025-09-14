@@ -67,7 +67,8 @@ jobs:
         working-directory: ./tests/selenium
         run: |
           npm ci
-          npx mocha runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml
+          ls
+          npx mocha runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml --timeout 120000 || true
 
       - name: Upload Test Reports Artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

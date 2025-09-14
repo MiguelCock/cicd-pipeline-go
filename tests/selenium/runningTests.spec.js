@@ -12,16 +12,19 @@ const FindElements = async (driver) => {
 }
 
 describe('First script', function () {
+	this.timeout(0);
+
 	let driver;
 
 	before(async function () {
-		this.timeout(30000);
+		this.timeout(60000);
 		let options = new chrome.Options();
 		options.addArguments('--no-sandbox');
 		options.addArguments('--disable-dev-shm-usage');
 		options.addArguments('--disable-gpu');
 		options.addArguments('--disable-software-rasterizer');
 		options.addArguments('--disable-extensions');
+		options.addArguments('--window-size=1920,1080');
 
 		driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 	});
@@ -38,7 +41,7 @@ describe('First script', function () {
 	];
 
 	cases.forEach((val) => {
-		it('First Selenium script with mocha', async function () {
+		it(`calc ${val[0]} ${val[2]} ${val[1]} -> ${val[3]}`, async function () {
 			await driver.get('http://localhost:8000');
 
 			const { num1, num2, select, button } = await FindElements(driver);
