@@ -31,13 +31,13 @@ jobs:
         uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
         with:
           version: latest
-          args: --timeout=5m
+          args: --timeout=5m --out-format checkstyle --out-file golangci-lint-report.xml
 
       - name: Run Unit Tests with Coverage
-        run: go test ./tests/go_test/ -o coverage.out -v
+        run: go test . -o coverage.out -v
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: coverage-report
@@ -70,21 +70,20 @@ jobs:
         if: always()
         with:
           name: test-reports
-          path: |
-            acceptance-report.xml
-            tests/selenium/
-              
-            - name: SonarCloud Scan
-              uses: SonarSource/sonarqube-scan-action@1a6d90ebcb0e6a6b1d87e37ba693fe453195ae25
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automáticamente proporcionado
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # El secreto que creaste
-          
+          path: acceptance-report.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@1a6d90ebcb0e6a6b1d87e37ba693fe453195ae25
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automáticamente proporcionado
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # El secreto que creaste
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@1a6d90ebcb0e6a6b1d87e37ba693fe453195ae25
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       # --- Pasos de Docker ---
 
       - name: Set up QEMU
