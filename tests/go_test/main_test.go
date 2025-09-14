@@ -16,7 +16,7 @@ func TestIndexGet(t *testing.T) {
 	endpoints.IndexHandler(w, req)
 
 	res := w.Result()
-	defer res.Body.Close()
+	defer func() { _ = res.Body.Close() }()
 
 	if res.StatusCode != http.StatusOK {
 		t.Fatalf("expected status 200, got %d", res.StatusCode)
