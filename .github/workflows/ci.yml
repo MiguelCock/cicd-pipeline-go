@@ -72,7 +72,7 @@ jobs:
           npm ci
 
           # Run Mocha acceptance tests
-          npx mocha .\runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml
+          npx mocha runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml
           cd ../..
 
           # Kill the Go app
