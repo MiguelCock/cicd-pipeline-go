@@ -30,8 +30,8 @@ jobs:
       - name: Run GolangCI-Lint (Linter)
         uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
         with:
-          version: latest
-          args: --timeout=5m --out-format checkstyle --out-file golangci-lint-report.xml
+          version: v1.61.0
+          args: --timeout=5m --out-format=checkstyle --out-file=golangci-lint-report.xml
 
       - name: Run Unit Tests with Coverage
         run: go test . -o coverage.out -v
