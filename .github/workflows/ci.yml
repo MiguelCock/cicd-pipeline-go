@@ -72,7 +72,7 @@ jobs:
           npm ci
 
           # Run Mocha acceptance tests
-          npx mocha runningTests.spec.js --reporter spec --exit || true
+          npx mocha .\runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml
           cd ../..
 
           # Kill the Go app
@@ -83,7 +83,7 @@ jobs:
         if: always()
         with:
           name: test-reports
-          path: acceptance-report.xml
+          path: tests/selenium/acceptance-report.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@1a6d90ebcb0e6a6b1d87e37ba693fe453195ae25

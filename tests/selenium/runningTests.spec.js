@@ -22,23 +22,8 @@ describe('First script', function () {
 		options.addArguments('--disable-gpu');
 		options.addArguments('--disable-software-rasterizer');
 		options.addArguments('--disable-extensions');
-		options.addArguments('--remote-debugging-port=9222');
-		options.addArguments('--headless=new');
 
 		driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
-
-		// Espera a que la app esté arriba
-		let connected = false;
-		for (let i = 0; i < 10; i++) {
-			try {
-				await driver.get(BASE_URL);
-				connected = true;
-				break;
-			} catch {
-				await new Promise(res => setTimeout(res, 1000));
-			}
-		}
-		if (!connected) throw new Error('No se pudo conectar a la app');
 	});
 
 	after(async () => await driver.quit());
