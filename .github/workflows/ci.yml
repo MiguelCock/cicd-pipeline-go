@@ -45,14 +45,14 @@ jobs:
           path: golangci-lint-report.xml
 
       - name: Run Unit Tests with Coverage
-        run: go test ./tests/go_test/ -coverprofile=coverage.out
+        run: go test -coverprofile=coverage ./...
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: coverage-report
-          path: coverage.out
+          path: coverage
 
       - name: Setup Chrome for Selenium
         uses: browser-actions/setup-chrome@b94431e051d1c52dcbe9a7092a4f10f827795416
