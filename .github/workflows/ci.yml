@@ -86,7 +86,7 @@ jobs:
 
           # Install JS test deps (from ./tests/selenium)
           cd ./tests/selenium
-          npm ci
+          npm install
 
           # Run Mocha acceptance tests
           npx mocha runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml
