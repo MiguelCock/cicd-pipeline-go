@@ -57,16 +57,17 @@ jobs:
       - name: Setup Chrome for Selenium
         uses: browser-actions/setup-chrome@latest
 
-      - name: Run Acceptance Tests
-        env:
-          APP_BASE_URL: http://localhost:8000
+      - name: Run go app
         run: |
-          # Start Go app in background
-          go build -o app .
-          ./app &
-          APP_PID=$!
-          sleep 15
+          go run . &
+          cd ./tests/selenium/
 
+      - name: Setup node
+        uses: actions/setup-node@v5
+          
+      
+      - name: Run Acceptance Tests
+        run: |
           # Wait until the app responds at /health (or root) or timeout
           max_wait=60  # seconds
           interval=5   # seconds between checks
@@ -84,16 +85,13 @@ jobs:
           
           echo "App is up, running acceptance tests"
 
-          # Install JS test deps (from ./tests/selenium)
-          cd ./tests/selenium
+          # Install JS test deps
           npm install
+          npm ci
 
           # Run Mocha acceptance tests
           npx mocha runningTests.spec.js --reporter mocha-junit-reporter --reporter-options mochaFile=acceptance-report.xml
           cd ../..
-
-          # Kill the Go app
-          kill $APP_PID
 
       - name: Upload Test Reports Artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
