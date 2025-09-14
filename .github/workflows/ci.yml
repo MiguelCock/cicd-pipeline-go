@@ -27,12 +27,16 @@ jobs:
       - name: Run GoFmt (Formatter Check)
         run: test -z "$(gofmt -l .)" || (echo "Go files are not formatted. Run gofmt." && exit 1)
 
-      - name: Install golangci-lint (optional) 
-        run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $GOPATH/bin v2.4.0
+      - name: Install golangci-lint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
+            | sh -s -- -b $(go env GOPATH)/bin v2.4.0
+
+      - name: Add GOPATH/bin to PATH
+        run: echo "${{ env.GOPATH }}/bin" >> $GITHUB_PATH
 
       - name: Run golangci-lint and write checkstyle
-        run: |
-          golangci-lint run --timeout=5m --output.checkstyle.path=golangci-lint-report.xml
+        run: golangci-lint run --timeout=5m --output.checkstyle.path=golangci-lint-report.xml
 
       - name: Upload golangci-lint report
         uses: actions/upload-artifact@v4
