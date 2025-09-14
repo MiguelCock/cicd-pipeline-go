@@ -27,11 +27,18 @@ jobs:
       - name: Run GoFmt (Formatter Check)
         run: test -z "$(gofmt -l .)" || (echo "Go files are not formatted. Run gofmt." && exit 1)
 
-      - name: Run GolangCI-Lint (Linter)
-        uses: golangci/golangci-lint-action@4afd733a84b1f43292c63897423277bb7f4313a9
+      - name: Install golangci-lint (optional) 
+        run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $GOPATH/bin v2.4.0
+
+      - name: Run golangci-lint and write checkstyle
+        run: |
+          golangci-lint run --timeout=5m --output.checkstyle.path=golangci-lint-report.xml
+
+      - name: Upload golangci-lint report
+        uses: actions/upload-artifact@v4
         with:
-          version: v1.61.0
-          args: --timeout=5m --out-format=checkstyle --out-file=golangci-lint-report.xml
+          name: golangci-lint-report
+          path: golangci-lint-report.xml
 
       - name: Run Unit Tests with Coverage
         run: go test . -o coverage.out -v
@@ -43,25 +50,27 @@ jobs:
           name: coverage-report
           path: coverage.out
 
-      - name: Setup Firefox
-        uses: browser-actions/setup-firefox@5914774dda97099441f02628f8d46411fcfbd208
+      - name: Setup Chrome for Selenium
+        uses: browser-actions/setup-chrome@latest
 
       - name: Run Acceptance Tests
         env:
           APP_BASE_URL: http://localhost:5000
         run: |
-          # Start Go app in background (replace with your binary if needed)
+          # Start Go app in background
           go build -o app .
           ./app &
           APP_PID=$!
-          sleep 10
+          sleep 15
 
           # Install JS test deps (from ./tests/selenium)
-          npm ci --prefix ./tests/selenium
+          cd ./tests/selenium
+          npm ci
 
           # Run Mocha acceptance tests
-          npx mocha ./tests/selenium/runningTests.spec.js --reporter spec --exit || true
-          
+          npx mocha runningTests.spec.js --reporter spec --exit || true
+          cd ../..
+
           # Kill the Go app
           kill $APP_PID
 
