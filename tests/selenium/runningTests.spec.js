@@ -1,4 +1,4 @@
-const { By, Builder, until } = require('selenium-webdriver');
+const { By, Builder, until, Browser } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const assert = require("assert");
 
@@ -25,7 +25,7 @@ describe('First script', function () {
 		options.addArguments('--remote-debugging-port=9222');
 		options.addArguments('--headless=new');
 
-		driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
+		driver = await new Builder().forBrowser('firefox').setChromeOptions(options).build();
 	});
 
 	after(async () => await driver.quit());

@@ -43,11 +43,8 @@ jobs:
           name: coverage-report
           path: coverage.out
 
-      - name: Setup Chrome for Acceptance Tests
-        uses: browser-actions/setup-chrome@v2
-        with:
-          chrome-version: 120
-          install-chromedriver: true
+      - name: Setup Firefox
+        uses: browser-actions/setup-firefox@v1
 
       - name: Run Acceptance Tests
         env:
