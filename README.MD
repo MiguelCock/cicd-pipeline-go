@@ -5,8 +5,8 @@ go fmt .
 
 ~~~ bash
 docker build -t go-calculator .
-docker run -p 5000:5000 go-calculator
-http://localhost:5000
+docker run -p 8000:8000 go-calculator
+http://localhost:8000
 ~~~
 
 ~~~ bash

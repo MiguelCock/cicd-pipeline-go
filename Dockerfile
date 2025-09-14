@@ -24,6 +24,6 @@ COPY --from=builder /app/templates ./templates
 RUN chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 5000
+EXPOSE 8000
 
 CMD ["./server"]

@@ -39,7 +39,7 @@ describe('First script', function () {
 
 	cases.forEach((val) => {
 		it('First Selenium script with mocha', async function () {
-			await driver.get('http://localhost:5000');
+			await driver.get('http://localhost:8000');
 
 			const { num1, num2, select, button } = await FindElements(driver);
 

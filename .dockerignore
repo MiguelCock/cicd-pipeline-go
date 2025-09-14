@@ -9,3 +9,4 @@ coverage
 # IDE
 .vscode/
 node_modules/
+acceptance-report.xml
