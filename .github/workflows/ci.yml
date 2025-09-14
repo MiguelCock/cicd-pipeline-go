@@ -58,9 +58,7 @@ jobs:
         uses: browser-actions/setup-chrome@latest
 
       - name: Run go app
-        run: |
-          go run . &
-          cd ./tests/selenium/
+        run: go run . &
 
       - name: Setup node
         uses: actions/setup-node@v5
@@ -85,8 +83,8 @@ jobs:
           
           echo "App is up, running acceptance tests"
 
+          cd ./test/selenium/
           # Install JS test deps
-          npm install
           npm ci
 
           # Run Mocha acceptance tests
