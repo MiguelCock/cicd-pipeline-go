@@ -1,7 +1,6 @@
-package go_test
+package endpoints
 
 import (
-	"cicd-pipeline-go/endpoints"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -13,7 +12,7 @@ func TestIndexGet(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	w := httptest.NewRecorder()
 
-	endpoints.IndexHandler(w, req)
+	IndexHandler(w, req)
 
 	res := w.Result()
 	defer func() { _ = res.Body.Close() }()
@@ -38,7 +37,7 @@ func testTemplate(t *testing.T, num1, num2, operacion, expected string) {
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 
-	endpoints.IndexHandler(w, req)
+	IndexHandler(w, req)
 
 	body := w.Body.String()
 	if !strings.Contains(body, expected) {
