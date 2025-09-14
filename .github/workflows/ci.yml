@@ -45,7 +45,7 @@ jobs:
           path: golangci-lint-report.xml
 
       - name: Run Unit Tests with Coverage
-        run: go test ./tests/go_test/ -o coverage.out -v
+        run: go test ./tests/go_test/ -coverprofile=coverage.out
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
