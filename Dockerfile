@@ -5,7 +5,9 @@ WORKDIR /app
 COPY go.mod ./
 RUN go mod download
 
-COPY *.go .
+COPY main.go .
+COPY ./endpoints/ ./endpoints/
+COPY ./utils/ ./utils/
 COPY templates ./templates
 
 RUN go build -o server .
