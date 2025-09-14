@@ -8,7 +8,11 @@ import (
 	"strconv"
 )
 
-var tmpl = template.Must(template.ParseFiles("templates/index.html"))
+var tmpl *template.Template
+
+func SetTmpl(dir string) {
+	tmpl = template.Must(template.ParseFiles(dir))
+}
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("[%s] %s\n", r.Method, r.RemoteAddr)

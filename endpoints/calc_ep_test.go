@@ -9,6 +9,7 @@ import (
 )
 
 func TestIndexGet(t *testing.T) {
+	SetTmpl("../templates/index.html")
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	w := httptest.NewRecorder()
 
@@ -46,6 +47,7 @@ func testTemplate(t *testing.T, num1, num2, operacion, expected string) {
 }
 
 func TestPostCalculator(t *testing.T) {
+	SetTmpl("../templates/index.html")
 	test := []struct {
 		num1, num2 string
 		operacion  string
